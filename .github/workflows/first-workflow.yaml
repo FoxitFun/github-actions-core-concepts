@@ -8,5 +8,6 @@ jobs:
               uses: actions/checkout@v5
 
             - name: Test job welome message
-              run: echo "Executing the test"
+              run: |
+                   echo "Executing the test"
                    cat README.md
