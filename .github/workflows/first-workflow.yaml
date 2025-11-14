@@ -6,6 +6,9 @@ jobs:
         steps:
             - name: Test job welome message
               run: echo "Executing the test"
+            - name: chekout repository
+              uses: actions/checkout@v5
+
             - name: Redme faile content
               run: cat README.md
           
