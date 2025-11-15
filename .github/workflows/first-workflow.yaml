@@ -3,8 +3,8 @@ on: push
 # Workflow level variables
 env:
   CONTAINER_REGISTRY: docker.io
-  DOCKER_USERNAME: foxitfun
   IMAGE_NAME: app
+
 jobs:
   docker-job:
     runs-on: ubuntu-latest
@@ -14,7 +14,7 @@ jobs:
         run: echo docker build . -t $CONTAINER_REGISTRY/$DOCKER_USERNAME/$IMAGE_NAME
       
       - name: Login
-        run: echo docker login --username=$DOCKER_USERNAME --password=*******
+        run: echo docker login --username=$DOCKER_USERNAME --password= {{ secrets.DOCKER_PASSWORD }}
 
       - name: Push the image
         run: echo docker push $CONTAINER_REGISTRY/$DOCKER_USERNAME/$IMAGE_NAME
