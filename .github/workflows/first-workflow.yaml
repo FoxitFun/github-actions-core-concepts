@@ -11,8 +11,11 @@ jobs:
 
     steps:
       - name: Build the imge
-        run: echo docker build . -t $CONTAINER_REGISTRY/${{ vars.DOCKER_USERNAME }}/$IMAGE_NAME
-      
+        timeout-minutes: 1
+        run: |
+              sleep 1000
+              echo docker build . -t $CONTAINER_REGISTRY/${{ vars.DOCKER_USERNAME }}/$IMAGE_NAME
+
       - name: Login
         run: echo docker login --username=${{ vars.DOCKER_USERNAME }} --password= ${{ secrets.DOCKER_PASSWORD }}
 
