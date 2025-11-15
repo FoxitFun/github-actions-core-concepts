@@ -1,5 +1,5 @@
 name: Build and deploy
-on: push
+on: workflow_dispatch
 # Workflow level variables
 env:
   CONTAINER_REGISTRY: docker.io
