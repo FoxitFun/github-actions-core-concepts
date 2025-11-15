@@ -1,13 +1,14 @@
 name: Build and deploy
 on: push
+# Workflow level variables
+env:
+  CONTAINER_REGISTRY: docker.io
+  DOCKER_USERNAME: foxitfun
+  IMAGE_NAME: app
 jobs:
   docker-job:
     runs-on: ubuntu-latest
-    # Job level variables
-    env:
-      CONTAINER_REGISTRY: docker.io
-      DOCKER_USERNAME: foxitfun
-      IMAGE_NAME: app
+
     steps:
       - name: Build the imge
         run: echo docker build . -t $CONTAINER_REGISTRY/$DOCKER_USERNAME/$IMAGE_NAME
@@ -23,7 +24,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Run the app
-        run: echo docker run docker.io/foxitfun/app
+        run: echo docker run $CONTAINER_REGISTRY/$DOCKER_USERNAME/$IMAGE_NAME
+
 
 # name: First_workflow
 # on: push
