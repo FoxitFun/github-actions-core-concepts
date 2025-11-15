@@ -3,22 +3,23 @@ on: push
 jobs:
   docker-job:
     runs-on: ubuntu-latest
+    # Job level variables
+    env:
+      CONTAINER_REGISTRY: docker.io
+      DOCKER_USERNAME: foxitfun
+      IMAGE_NAME: app
     steps:
       - name: Build the imge
-        # Step level variables
-        env:
-          CONTAINER_REGISTRY: docker.io
-          DOCKER_USERNAME: foxitfun
-          IMAGE_NAME: app
         run: echo docker build . -t $CONTAINER_REGISTRY/$DOCKER_USERNAME/$IMAGE_NAME
       
       - name: Login
-        run: echo docker login --username=foxitfun --password=*******
+        run: echo docker login --username=$DOCKER_USERNAME --password=*******
 
       - name: Push the image
-        run: echo docker push docker.io/foxitfun/app
-  
+        run: echo docker push $CONTAINER_REGISTRY/$DOCKER_USERNAME/$IMAGE_NAME
+
   deploy-job:
+    needs: docker-job
     runs-on: ubuntu-latest
     steps:
       - name: Run the app
