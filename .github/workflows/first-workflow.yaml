@@ -1,48 +1,74 @@
-name: First_workflow
+name: Build and deploy
 on: push
 jobs:
-    build-job:
-        runs-on: ubuntu-latest
-        steps:
-            - name: Build the app
-              run: |
-                    sleep 3
-                    echo "building the app ..." > app.txt
+  docker-job:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Build the imge
+        # Step level variables
+        env:
+          CONTAINER_REGISTRY: docker.io
+          DOCKER_USERNAME: foxitfun
+          IMAGE_NAME: app
+        run: echo docker build . -t $CONTAINER_REGISTRY/$DOCKER_USERNAME/$IMAGE_NAME
+      
+      - name: Login
+        run: echo docker login --username=foxitfun --password=*******
+
+      - name: Push the image
+        run: echo docker push docker.io/foxitfun/app
+  
+  deploy-job:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Run the app
+        run: echo docker run docker.io/foxitfun/app
+
+# name: First_workflow
+# on: push
+# jobs:
+#     build-job:
+#         runs-on: ubuntu-latest
+#         steps:
+#             - name: Build the app
+#               run: |
+#                     sleep 3
+#                     echo "building the app ..." > app.txt
             
-            - name: Upload the app.txt file
-              uses: actions/upload-artifact@v4
-              with:
-                    # Name of the artifact to upload.
-                    name: app-text-file
-                    # A file, directory or wildcard pattern that describes what to upload
-                    path: app.txt
+#             - name: Upload the app.txt file
+#               uses: actions/upload-artifact@v4
+#               with:
+#                     # Name of the artifact to upload.
+#                     name: app-text-file
+#                     # A file, directory or wildcard pattern that describes what to upload
+#                     path: app.txt
 
-    test-job:
-        needs: build-job
-        runs-on: ubuntu-latest
-        steps:
-            - name: Download the app.txt file
-              uses: actions/download-artifact@v5
-              with:
-                    name: app-text-file
+#     test-job:
+#         needs: build-job
+#         runs-on: ubuntu-latest
+#         steps:
+#             - name: Download the app.txt file
+#               uses: actions/download-artifact@v5
+#               with:
+#                     name: app-text-file
 
-            - name: Test the app
-              run: |
-                    sleep 3
-                    cat app.txt
-                    echo "testing the app ..."
+#             - name: Test the app
+#               run: |
+#                     sleep 3
+#                     cat app.txt
+#                     echo "testing the app ..."
 
-    deploy-job:
-        needs: test-job
-        runs-on: ubuntu-latest
-        steps:
-            - name: Download the app.txt file
-              uses: actions/download-artifact@v5
-              with:
-                    name: app-text-file
+#     deploy-job:
+#         needs: test-job
+#         runs-on: ubuntu-latest
+#         steps:
+#             - name: Download the app.txt file
+#               uses: actions/download-artifact@v5
+#               with:
+#                     name: app-text-file
 
-            - name: Deploy the app
-              run: |
-                    sleep 1
-                    cat app.txt
-                    echo "deploying the app ..."
+#             - name: Deploy the app
+#               run: |
+#                     sleep 1
+#                     cat app.txt
+#                     echo "deploying the app ..."
