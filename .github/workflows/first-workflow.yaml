@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Building the imge
+      - name: Build the imge
         timeout-minutes: 1
         run: echo docker build . -t $CONTAINER_REGISTRY/${{ vars.DOCKER_USERNAME }}/$IMAGE_NAME
 
