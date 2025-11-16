@@ -12,9 +12,7 @@ jobs:
     steps:
       - name: Build the imge
         timeout-minutes: 1
-        run: |
-              sleep 1000
-              echo docker build . -t $CONTAINER_REGISTRY/${{ vars.DOCKER_USERNAME }}/$IMAGE_NAME
+        run: echo docker build . -t $CONTAINER_REGISTRY/${{ vars.DOCKER_USERNAME }}/$IMAGE_NAME
 
       - name: Login
         run: echo docker login --username=${{ vars.DOCKER_USERNAME }} --password= ${{ secrets.DOCKER_PASSWORD }}
@@ -27,7 +25,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Run the app
-        run: echo docker run $CONTAINER_REGISTRY/${{ vars.DOCKER_USERNAME }}/$IMAGE_NAME
+        run: |
+              echo docker run $CONTAINER_REGISTRY/${{ vars.DOCKER_USERNAME }}/$IMAGE_NAME
+              sleep 3000
 
 
 # name: First_workflow
